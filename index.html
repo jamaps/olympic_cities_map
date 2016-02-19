@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+  	<link rel="icon" type="image/png" href="favicon.png" />
+  	<title>Olympic Cities Map</title>
+  	<meta charset="utf-8"/>
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
+    <script src="cities.geojson"></script>
+
+</head>
+
+<body>
+
+<style>
+* {
+    margin:0;
+    padding:0;
+    text-align: center;
+    vertical-align: middle;
+    font-family: sans-serif;
+}
+body {
+    background-image: url('back.png');
+    height: 100%;
+    width: 100%;
+}
+h3 {
+  padding-top: 8px;
+  font-family: 'Libre Baskerville', serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+p {
+  font-family: 'Libre Baskerville', serif;
+  font-weight: 400;
+  font-size: 11px;
+  padding-top:6px;
+}
+a {
+  text-decoration:none;
+  font-family: 'Libre Baskerville', serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: darkblue;
+}
+
+.all {
+    width: 1040px;
+    min-width: 1020px;
+    height: 100%;
+    display: table;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.all #title {
+  height: calc((100vh - 510px)/2);
+  width: 1020px;
+  border: 0px solid;
+  border-bottom: 0px;
+  display: inline-block;
+  opacity: 0.99;
+  position: relative;
+
+}
+
+.all #title h3 {
+  position: absolute;
+  bottom: 10px;
+  left: 367px;
+}
+
+.all #map {
+    width: 1020px;
+    height: 510px;
+    border: 1px solid;
+    border-color: grey;
+    display: inline-block;
+    box-shadow: 0px 0px 2px 2px rgba(50, 50, 50, 0.3);;
+}
+
+.all #under {
+    width: 1020px;
+    /*height: calc(100vh - 510px - 40px - 2px);*/
+    min-height: 40px;
+    display: inline-block;
+    border-left: 0px solid;
+    border-right: 0px solid;
+    opacity: 0.99;
+}
+
+.leaflet-popup-content-wrapper {
+  background-image: url('back.png');
+  color:black;
+  opacity: 0.97;
+  }
+
+.leaflet-popup-content p {
+  padding: 0px;
+  margin: 0px;
+  font-size: 11px;
+  line-height: 5px;
+}
+
+.leaflet-popup-tip {
+  background-image: url('back.png');
+  opacity: 0.97;
+  }
+
+</style>
+
+
+<div class="all">
+  <div id="title"><h3>Host Cities of the Olympic Games</h3></div>
+  <div id="map"></div>
+  <div id="under"><p>Map designed by <a href="http://jamaps.github.io/">Jeff Allen</a> in 2016 with <a href="http://leafletjs.com/">Leaflet</a> and <a href="http://www.qgis.org/">QGIS</a> with data from <a href="http://www.naturalearthdata.com/">Natural Earth</a></p></div>
+</div>
+
+
+<script>
+
+var map = L.map('map',{
+  zoomControl:false,
+  attributionControl:false,
+
+}).setView([20, 2], 2);
+
+var iconstyle = L.icon({
+  iconUrl: 'place.svg',
+	iconSize: [16, 16],
+	iconAnchor: [8, 8],
+  popupAnchor:  [0, 0],
+});
+
+L.tileLayer('tiles/{z}/{x}/{y}.png', {
+    minZoom: 2,
+    maxZoom: 5,
+    tms: true,
+    noWrap: false,
+    attribution: false, //'Built by Jeff Allen with Leaflet, QGIS, & Natural Earth'
+}).addTo(map);
+L.control.attribution( {
+  prefix: false,
+  position:	'bottomright'
+} ).addTo(map);
+L.control.zoom( {
+  position:	'topleft',
+} ).addTo(map);
+
+L.geoJson(cities, {
+  pointToLayer: function (feature, latlng) {
+  		                var popupOptions = {maxWidth: 500};
+  		                var popupContent = '<p>' + feature.properties.City + ', '
+                      + feature.properties.Country + '</p>'+ '<br>'+'<p>'+feature.properties.Year+'</p>';
+  		                return L.marker(latlng, {icon: iconstyle}).bindPopup(popupContent,popupOptions);
+  		            }
+}).addTo(map);
+
+</script>
+
+</body>
+
+</html>
