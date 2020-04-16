@@ -22,7 +22,7 @@ var cities = {
        "coordinates":  [ 2.351,48.857 ]
     },
     "properties": {
-    "Year":"1900 & 1924 Summer Olympics",
+    "Year":"1900 & 1924 & 2024 Summer Olympics",
     "City":"Paris",
     "Country":"France",
     "Times_Hosted":2,
@@ -176,7 +176,7 @@ var cities = {
        "coordinates":  [ 139.683,35.683 ]
     },
     "properties": {
-    "Year":"1964 & 2020 Summer Olympics",
+    "Year":"1964 & 2021 Summer Olympics",
     "City":"Tokyo",
     "Country":"Japan",
     "Times_Hosted":2,
